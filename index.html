@@ -42,48 +42,136 @@
             
             // read data and create visualisation
             d3.csv("data/PedestrianCountingSystemWeekdaysAndWeekends.csv", rowParser, function(d){
-//                console.log(d); //REMOVE THIS LATER ##############################################################################
+                console.log(d); //REMOVE THIS LATER ##############################################################################
                 
                 // set graph margin
-                var margin = {left: 30, 
-                              top: 20, 
-                              right: 20, 
-                              bottom: 20};
+                var margin = {left: 50, 
+                              top: 40, 
+                              right: 40, 
+                              bottom: 50};
                 
                 // x-axis scale
                 var xScale = d3.scaleLinear()
-                    .domain(d3.extent(d, function(v) {return v["TimeOfDay"]}))
-                    .range([margin.left, width - margin.right]);
+                                .domain(d3.extent(d, function(v) {return v["TimeOfDay"]}))
+                                .range([margin.left, width - margin.right]);
                 
                 
                 //y-axis scale
                 var yScale = d3.scaleLinear()
-                    .domain([0, 
-                             d3.max(d, function(v){return v["HourlyAverage"]}
-                    )])
-                    .range([height - margin.bottom, margin.top]);
+                                .domain([0, 
+                                         d3.max(d, function(v){return v["HourlyAverage"]}
+                                )])
+                                .range([height - margin.bottom, margin.top]);
+                
+                // x-axis
+                var xAxis = d3.axisBottom()
+                                .scale(xScale)
+                                .ticks(24); // a bit of customisation
+                
+                // y-axis
+                var yAxis = d3.axisLeft()
+                                .scale(yScale)
+                                .ticks(14); // a bit of customisation
                                 
+                // create line generator
+                var dataSeries = d3.line()
+                                    .x(function(d){return xScale(d.TimeOfDay)})
+                                    .y(function(d){return yScale(d.HourlyAverage)})
                 
+                // draw line paths
+                // weekends
+                svg.append("path")
+                    .datum(filterData(d, "Weekend"))
+                    .attr("class", "line weekend")
+                    .attr("d", dataSeries);
                 
-                // create circles
+                // weekdays
+                svg.append("path")
+                    .datum(filterData(d, "Weekday"))
+                    .attr("class", "line weekday")
+                    .attr("d", dataSeries);
+                
+                // draw circles
                 svg.selectAll("circle")
-                    .data(filterData(d, "Weekend"))
+                    .data(d)
                     .enter()
                     .append("circle")
                     .attr("cx", function(d){
-                        return xScale(d["TimeOfDay"])
+                        return xScale(d.TimeOfDay)
                 })
                     .attr("cy", function(d){
-                        return yScale(d["HourlyAverage"])
+                        return yScale(d.HourlyAverage)
                 })
-                    .attr("r", 3)
-                    .attr("fill", function(d){
-                    if (d.Day == "Weekday") {
-                        return "steelblue"
-                    } else {
-                        return "red"
-                    }
+                    .attr("r", 5)
+                    .attr("class", function(v){
+                        if (v.Day == "Weekday"){
+                            return "datapoint weekday"
+                        } else {
+                            return "datapoint weekend"
+                        };
+                })
+                    .on("mouseover", function(d){
+                    
+                    svg.append("div")
+                        .style("position", "absolute")
+                        .style("visibility", "visible")
+                        .style("background-color", "white")
+                        .style("border", "solid")
+                        .style("border-radius", "5px")
+                        .style("padding", "10px")
+                        .html("<p>Here is the tooltip</p>");
+                                        
+//                        return tooltip.style("visibility", "visible");    
+                    
+/*
+                        var xPosition = parseFloat(d3.select(this).attr("cx")); 
+                        if (xPosition >= (margin.left + (width - margin.right)) / 2) {
+                            xPosition = xPosition - 70
+                        } else {
+                            xPosition = xPosition + 10 
+                        };
+                    
+                        var yPosition = parseFloat(d3.select(this).attr("cy"));
+                        if (yPosition >= (margin.bottom + (height - margin.top)) / 2) {
+                            yPosition = yPosition - 10
+                        } else {
+                            yPosition = yPosition + 70 
+                        };
+
+                    
+                        svg.append("text")
+                            .attr("x", xPosition)
+                            .attr("y", yPosition)
+                            .attr("class", "tooltip")
+                            .text("here goes the tooltip")
+*/
+                })
+                    .on("mouseout", function(){
+                        d3.select(".tooltip").remove()
                 });
+                
+                // draw axes
+                svg.append("g")
+                    .attr("transform", "translate(0," + (height - margin.bottom) + ")")
+                    .call(xAxis);
+                
+                svg.append("g")
+                    .attr("transform", "translate(" + margin.left + ", 0)")
+                    .call(yAxis);
+                
+                // annotation text
+                var annotation = "Pedestrian counts during weekdays fluctuate at peak hours, whereas counts during weekends grow and shrink steadily throughout the day. Weekdays peaks correspond to work starting hours, lunch time and work ending hours. On weekends, this pattern is replaced by a soft pedestrian increase and decrease troughout the day."
+                
+                // annotation
+                svg.append("foreignObject")
+                    .attr("width", 400)
+                    .attr("height", 110)
+                    .attr("x", width / 10)
+                    .attr("y", margin.top)
+                    .append("xhtml:body")
+                        .attr("class", "annotation")
+                        .html(annotation);
+            
             
         });
         

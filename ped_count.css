@@ -1,3 +1,35 @@
 .canvas {
-    border: solid 1px
+    border: none;//solid 1px
+}
+
+.line {
+    fill: none;
+    stroke-width: 2;
+}
+
+.datapoint.weekday {
+    fill: steelblue;
+}
+
+.datapoint.weekend {
+    fill: red;
+}
+
+.line.weekday {
+    stroke: steelblue;
+}
+
+.line.weekend {
+    stroke: red;
+}
+
+.annotation {
+    background-color: none;
+    font-family: sans-serif;
+    font-size: 15px;
+}
+
+.tooltip {
+    font-family: sans-serif;
+    font-size: 13px;
 }
