@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        
+        <title>Pedestrian hourly average count</title>
+        <link rel="stylesheet" href="ped_count.css">
+        
+    </head>
+    
+    <body>
+        
+        <h1>Title of the beautiful thing I'll do here</h1>
+        <p>This is a paragraph</p>
+        
+        <svg></svg>
+        
+        <script src="https://d3js.org/d3.v4.min.js"></script>
+        
+        <script>
+            
+            // set svg configuration
+            var height = 600;
+            var width = 960;
+            var svg = d3.selectAll("svg")
+                .attr("height", height)
+                .attr("width", width)
+                .attr("class", "canvas");
+            
+            // data type casting function for csv reading
+            var rowParser = function(d) {
+                return {
+                    Day: d.Day,
+                    TimeOfDay: parseInt(d.TimeOfDay),
+                    HourlyAverage: parseFloat(d.HourlyAverage)                    
+                }
+            };
+            
+            // group filtering function
+            var filterData = function(d, group){
+                return d.filter(function(v){return v.Day == group})
+            };
+            
+            // read data and create visualisation
+            d3.csv("data/PedestrianCountingSystemWeekdaysAndWeekends.csv", rowParser, function(d){
+//                console.log(d); //REMOVE THIS LATER ##############################################################################
+//                data = d; // store dataset
+                
+                // get Day unique values from data
+                var groups = d3.map(d, function(v){return v.Day}).keys();
+                
+//                console.log(groups);
+                
+                // set graph margin
+                var margin = {left: 30, 
+                              top: 20, 
+                              right: 20, 
+                              bottom: 20};
+                
+                // x-axis scale
+                var xScale = d3.scaleLinear()
+                    .domain(d3.extent(d, function(v) {return v["TimeOfDay"]}))
+                    .range([margin.left, width - margin.right]);
+                
+                
+                //y-axis scale
+                var yScale = d3.scaleLinear()
+                    .domain([0, 
+                             d3.max(d, function(v){return v["HourlyAverage"]}
+                    )])
+                    .range([height - margin.bottom, margin.top]);
+                
+                // Draw lines
+                // Weekdays
+//                svg.select("path")
+//                    .datum(filter())
+                
+                
+                
+                // create circles
+                svg.selectAll("circle")
+                    .data(filterData(d, "Weekend"))
+                    .enter()
+                    .append("circle")
+                    .attr("cx", function(d){
+                        return xScale(d["TimeOfDay"])
+                })
+                    .attr("cy", function(d){
+                        return yScale(d["HourlyAverage"])
+                })
+                    .attr("r", 3)
+                    .attr("fill", function(d){
+                    if (d.Day == "Weekday") {
+                        return "steelblue"
+                    } else {
+                        return "red"
+                    }
+                });
+            
+        });
+        
+            
+            
+        </script>
+    </body>
+</html>
