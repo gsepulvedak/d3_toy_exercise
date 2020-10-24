@@ -43,12 +43,6 @@
             // read data and create visualisation
             d3.csv("data/PedestrianCountingSystemWeekdaysAndWeekends.csv", rowParser, function(d){
 //                console.log(d); //REMOVE THIS LATER ##############################################################################
-//                data = d; // store dataset
-                
-                // get Day unique values from data
-                var groups = d3.map(d, function(v){return v.Day}).keys();
-                
-//                console.log(groups);
                 
                 // set graph margin
                 var margin = {left: 30, 
@@ -68,12 +62,7 @@
                              d3.max(d, function(v){return v["HourlyAverage"]}
                     )])
                     .range([height - margin.bottom, margin.top]);
-                
-                // Draw lines
-                // Weekdays
-//                svg.select("path")
-//                    .datum(filter())
-                
+                                
                 
                 
                 // create circles
