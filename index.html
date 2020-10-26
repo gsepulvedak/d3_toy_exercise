@@ -52,7 +52,6 @@
             
             // create visualisation
             d3.csv("data/PedestrianCountingSystemWeekdaysAndWeekends.csv", rowParser, function(d){
-                console.log(d); //REMOVE THIS LATER ##############################################################################
                 
                 // x-axis scale
                 var xScale = d3.scaleLinear()
@@ -86,13 +85,13 @@
                 svg.append("path")
                     .datum(filterData(d, "Weekend"))
                     .attr("class", "line weekend")
-                    .attr("d", dataSeries);
+                    .attr("d", dataSeries)
                 
                 // weekdays
                 svg.append("path")
                     .datum(filterData(d, "Weekday"))
                     .attr("class", "line weekday")
-                    .attr("d", dataSeries);
+                    .attr("d", dataSeries)
                 
                 // draw circles
                 svg.selectAll("circle")
@@ -190,7 +189,60 @@
                     .attr("text-anchor", "middle")
                     .text("Pedestrian average count")
             
-            
+                // legend - totally manual and hard coded - version 0
+                
+                var xLegend = width - margin.right - 120;
+                var yLegend = margin.top + 50;
+                var legendWidth = 100;
+                var legendHeight = 50;
+                
+                svg.append("g")
+                    .attr("id", "legend")
+                    .attr("x", xLegend)
+                    .attr("y", yLegend)
+                    .attr("width", legendWidth)
+                    .attr("height", legendHeight);
+                
+                d3.select("#legend")
+                    .append("line")
+                    .attr("class", "line weekday")
+                    .attr("x1", xLegend + 10)
+                    .attr("y1", yLegend + 5)
+                    .attr("x2", xLegend + 30)
+                    .attr("y2", yLegend + 5);
+                
+                d3.select("#legend")
+                    .append("text")
+                    .attr("class", "annotation")
+                    .attr("x", xLegend + 50)
+                    .attr("y", yLegend + 8)
+                    .text("Weekday")
+                
+                d3.select("#legend")
+                    .append("line")
+                    .attr("class", "line weekend")
+                    .attr("x1", xLegend + 10)
+                    .attr("y1", yLegend + 25)
+                    .attr("x2", xLegend + 30)
+                    .attr("y2", yLegend + 25);
+                
+                d3.select("#legend")
+                    .append("text")
+                    .attr("class", "annotation")
+                    .attr("x", xLegend + 50)
+                    .attr("y", yLegend + 28)
+                    .text("Weekend");
+                
+                d3.select("#legend")
+                    .append("text")
+                    .attr("class", "annotation")
+                    .attr("x", xLegend + 10)
+                    .attr("y", yLegend - 15)
+                    .style("font-weight", "bold")
+                    .style("font-size", "18px")
+                    .text("Day type");
+                    
+                
         });
         
             
