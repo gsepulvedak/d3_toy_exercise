@@ -155,10 +155,9 @@
                     .attr("transform", "translate(" + margin.left + ", 0)")
                     .call(yAxis);
                 
-                // annotation text
+                // annotation
                 var annotation = "Pedestrian counts during weekdays fluctuate at peak hours, whereas counts during weekends grow and shrink steadily throughout the day. Weekday peaks correspond to work starting hours, lunch time and work ending hours, at hours 8, 12-13 and 17. On weekends, this pattern is replaced by a soft pedestrian increase and decrease troughout the day."
                 
-                // annotation
                 svg.append("foreignObject")
                     .attr("width", 400)
                     .attr("height", 110)
@@ -168,6 +167,8 @@
                         .attr("class", "annotation")
                         .html(annotation);
                 
+                
+                // ----------- extras
                 // plot title
                 svg.append("text")
                     .attr("x", (width - margin.right + margin.left) / 2)
