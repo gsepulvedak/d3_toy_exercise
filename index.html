@@ -26,14 +26,17 @@
         <script>
             
             // set svg configuration
-            var height = 600;
+            var height = 650;
             var width = 960;
             var svg = d3.selectAll("svg")
                 .attr("height", height)
                 .attr("width", width)
                 .attr("class", "canvas");
             
-            // data type casting function for csv reading
+            // set graph margins
+            var margin = {left: 50, top: 90, right: 40, bottom: 50};
+            
+            // parser function for data reading stage
             var rowParser = function(d) {
                 return {
                     Day: d.Day,
@@ -47,21 +50,14 @@
                 return d.filter(function(v){return v.Day == group})
             };
             
-            // read data and create visualisation
+            // create visualisation
             d3.csv("data/PedestrianCountingSystemWeekdaysAndWeekends.csv", rowParser, function(d){
                 console.log(d); //REMOVE THIS LATER ##############################################################################
-                
-                // set graph margin
-                var margin = {left: 50, 
-                              top: 40, 
-                              right: 40, 
-                              bottom: 50};
                 
                 // x-axis scale
                 var xScale = d3.scaleLinear()
                                 .domain(d3.extent(d, function(v) {return v["TimeOfDay"]}))
                                 .range([margin.left, width - margin.right]);
-                
                 
                 //y-axis scale
                 var yScale = d3.scaleLinear()
@@ -117,14 +113,14 @@
                             return "datapoint weekend"
                         };
                 })
-                // show tooltip
+                // tooltip
                     .on("mouseover", function(d){
                     
+                    // get feature position
                     var xPosition = parseFloat(d3.select(this).attr("cx"));                 
-                    var yPosition = parseFloat(d3.select(this).attr("cy"));
+                    var yPosition = parseFloat(d3.select(this).attr("cy"));                
                     
-                    console.log(d.HourlyAverage);
-                    
+                    // display tooltip
                     d3.select("#tooltip")
                         .style("left", (xPosition + 20) + "px")
                         .style("top", (yPosition + 30) + "px")
@@ -166,6 +162,15 @@
                     .append("xhtml:body")
                         .attr("class", "annotation")
                         .html(annotation);
+                
+                // plot title
+                svg.append("text")
+                    .attr("x", (width - margin.right + margin.left) / 2)
+                    .attr("y", margin.top / 2)
+                    .attr("text-anchor", "middle")
+                    .attr("font-family", "sans-serif")
+                    .attr("font-size", "20px")
+                    .text("Pedestrian weekend and weekday hourly average count in Melbourne CBD.")
             
             
         });

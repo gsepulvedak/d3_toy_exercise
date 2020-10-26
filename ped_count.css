@@ -1,5 +1,5 @@
 .canvas {
-    border: none;//solid 1px
+    border: solid 1px;
 }
 
 .line {
@@ -8,19 +8,19 @@
 }
 
 .datapoint.weekday {
-    fill: steelblue;
+    fill: #1b9e77;
 }
 
 .datapoint.weekend {
-    fill: red;
+    fill: #d95f02;
 }
 
 .line.weekday {
-    stroke: steelblue;
+    stroke: #1b9e77;
 }
 
 .line.weekend {
-    stroke: red;
+    stroke: #d95f02;
 }
 
 .annotation {
