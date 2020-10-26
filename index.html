@@ -84,13 +84,13 @@
                 // weekends
                 svg.append("path")
                     .datum(filterData(d, "Weekend"))
-                    .attr("class", "line weekend")
+                    .attr("class", "weekend line")
                     .attr("d", dataSeries)
                 
                 // weekdays
                 svg.append("path")
                     .datum(filterData(d, "Weekday"))
-                    .attr("class", "line weekday")
+                    .attr("class", "weekday line")
                     .attr("d", dataSeries)
                 
                 // draw circles
@@ -107,9 +107,9 @@
                     .attr("r", 7)
                     .attr("class", function(v){
                         if (v.Day == "Weekday"){
-                            return "datapoint weekday"
+                            return "weekday"
                         } else {
-                            return "datapoint weekend"
+                            return "weekend"
                         };
                 })
                 // tooltip
@@ -156,16 +156,46 @@
                     .call(yAxis);
                 
                 // annotation
-                var annotation = "Pedestrian counts during weekdays fluctuate at peak hours, whereas counts during weekends grow and shrink steadily throughout the day. Weekday peaks correspond to work starting hours, lunch time and work ending hours, at hours 8, 12-13 and 17. On weekends, this pattern is replaced by a soft pedestrian increase and decrease troughout the day."
+                var annotation = "Pedestrian counts during weekdays fluctuate at peak hours, whereas counts during weekends grow and shrink steadily throughout the day. Weekday peaks correspond to work starting hours, lunch time and work ending hours, at 8, 12-13 and 17. On weekends, this pattern is replaced by a soft pedestrian increase and decrease troughout the day."
                 
+                // attention to "finding" annotation (blink every 5 secs)
                 svg.append("foreignObject")
-                    .attr("width", 400)
-                    .attr("height", 110)
+                    .attr("id", "foreign")
+                    .attr("width", 150)
+                    .attr("height", 30)
                     .attr("x", width / 10)
                     .attr("y", margin.top)
                     .append("xhtml:body")
-                        .attr("class", "annotation")
-                        .html(annotation);
+                        .attr("id", "findingText")
+                        .attr("class", "annotation blink")
+                        .html("Findings...");
+                
+                d3.select("#findingText")
+                    .on("mouseover", function(){
+                    
+                        d3.select(this)
+                            .attr("class", "annotation");
+                    
+                        d3.select("#foreign")
+                            .attr("id", "foreign")
+                            .attr("width", 400)
+                            .attr("height", 160)
+                            .attr("x", width / 10)
+                            .attr("y", margin.top)
+                            .append("xhtml:body")
+                                .attr("id", "findingText")
+                                .attr("class", "annotation")
+                                .html(annotation);
+
+                    })
+                    .on("mouseout", function(){
+                        
+                        d3.select("#foreign")
+                            .attr("width", 150)
+                            .attr("height", 30);
+                    
+
+                })
                 
                 
                 // ----------- extras
