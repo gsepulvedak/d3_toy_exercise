@@ -2,11 +2,6 @@
     border: solid 1px;
 }
 
-.line {
-    fill: none;
-    stroke-width: 3;
-}
-
 .weekday {
     fill: #1b9e77;
 }

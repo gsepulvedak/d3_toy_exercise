@@ -9,8 +9,8 @@
     
     <body>
         
-        <h1>FIT5147 - D3 programming exercise</h1>
-        <h2>Semester 2 - 2020</h2>
+        <h1 style="margin:0">FIT5147 - D3 programming exercise</h1>
+        <h2 style="margin-top:0">Semester 2 - 2020</h2>
         
 <!--    tooltip-->
         <div id="tooltip" class="hidden">
@@ -20,6 +20,11 @@
         </div>
         
         <svg></svg>
+        
+        <div style="padding:10px">
+            <p style="margin:0"><strong>Author:</strong> <span>Gonzalo Sepulveda</span></p>
+            <p style="margin:0"><strong>Id:</strong> <span>29505445</span></p>
+        </div>
         
         <script src="https://d3js.org/d3.v4.min.js"></script>
         
@@ -161,14 +166,14 @@
                 // attention to "finding" annotation (blink every 5 secs)
                 svg.append("foreignObject")
                     .attr("id", "foreign")
-                    .attr("width", 150)
+                    .attr("width", 130)
                     .attr("height", 30)
                     .attr("x", width / 10)
                     .attr("y", margin.top)
                     .append("xhtml:body")
                         .attr("id", "findingText")
                         .attr("class", "annotation blink")
-                        .html("Findings...");
+                        .html("Show findings...");
                 
                 d3.select("#findingText")
                     .on("mouseover", function(){
@@ -191,10 +196,8 @@
                     .on("mouseout", function(){
                         
                         d3.select("#foreign")
-                            .attr("width", 150)
+                            .attr("width", 130)
                             .attr("height", 30);
-                    
-
                 })
                 
                 
