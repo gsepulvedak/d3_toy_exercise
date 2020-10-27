@@ -17,7 +17,7 @@ window.onload = function () {
             Day: d.Day,
             TimeOfDay: parseInt(d.TimeOfDay),
             HourlyAverage: parseFloat(d.HourlyAverage)                    
-        }
+        };
     };
 
     // group filtering function
@@ -130,9 +130,7 @@ window.onload = function () {
             .attr("transform", "translate(" + margin.left + ", 0)")
             .call(yAxis);
 
-        // annotation
-        var annotation = "Pedestrian counts during weekdays fluctuate at peak hours, whereas counts during weekends grow and shrink steadily throughout the day. Weekday peaks correspond to work starting hours, lunch time and work ending hours, at 8, 12-13 and 17. On weekends, this pattern is replaced by a soft pedestrian increase and decrease troughout the day."
-
+        
         // attention to "finding" annotation (blink every 5 secs)
         svg.append("foreignObject")
             .attr("id", "foreign")
@@ -144,30 +142,28 @@ window.onload = function () {
                 .attr("id", "findingText")
                 .attr("class", "annotation blink")
                 .html("Show findings...");
-
+        
+        // display annotation
         d3.select("#findingText")
             .on("mouseover", function(){
 
                 d3.select(this)
                     .attr("class", "annotation");
-
-                d3.select("#foreign")
-                    .attr("id", "foreign")
-                    .attr("width", 400)
-                    .attr("height", 160)
-                    .attr("x", width / 10)
-                    .attr("y", margin.top)
-                    .append("xhtml:body")
-                        .attr("id", "findingText")
-                        .attr("class", "annotation")
-                        .html(annotation);
+            
+                // get position relative to blinking text
+                var xAnnotation = parseFloat(d3.select("#foreign").attr("x"));
+                var yAnnotation = parseFloat(d3.select("#foreign").attr("y"));
+                
+                d3.select("#finding")
+                    .style("left", (xAnnotation + 5) + "px")
+                    .style("top", (yAnnotation + 120) + "px")
+                    .classed("hidden", false);
 
             })
             .on("mouseout", function(){
 
-                d3.select("#foreign")
-                    .attr("width", 130)
-                    .attr("height", 30);
+                d3.select("#finding")
+                    .classed("hidden", true);
         })
 
 
