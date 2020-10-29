@@ -131,47 +131,12 @@ window.onload = function () {
             .call(yAxis);
 
         
-        // attention to "finding" annotation (blink every 5 secs)
-      /*  svg.append("foreignObject")
-            .attr("id", "foreign")
-            .attr("width", 130)
-            .attr("height", 30)
-            .attr("x", width / 10)
-            .attr("y", margin.top)
-            .append("xhtml:body")
-                .attr("id", "findingText")
-                .attr("class", "annotation blink")
-                .html("Show findings...");
-        
-        // display annotation
-        d3.select("#findingText")
-            .on("mouseover", function(){
-
-                d3.select(this)
-                    .attr("class", "annotation");
-            
-                // get position relative to blinking text
-                var xAnnotation = parseFloat(d3.select("#foreign").attr("x"));
-                var yAnnotation = parseFloat(d3.select("#foreign").attr("y"));
-                
-                d3.select("#finding")
-                    .style("left", (xAnnotation + 5) + "px")
-                    .style("top", (yAnnotation + 120) + "px")
-                    .classed("hidden", false);
-
-            })
-            .on("mouseout", function(){
-
-                d3.select("#finding")
-                    .classed("hidden", true);
-        })*/
-        
+        // annotation (hard coded)
         d3.select("#finding")
             .style("left", width/10 + "px")
             .style("top", (margin.top - 10) + "px")
         
         svg.append("line")
-//            .attr("class", "annotation line")
             .attr("x1", width/10)
             .attr("y1", margin.top - 15)
             .attr("x2", xScale(17))

@@ -52,16 +52,6 @@
     font-size: 15px;
 }
 
-.annotation.blink {
-    animation: blink 5s linear infinite;
-}
-
-@keyframes blink{
-0%{opacity: 0;}
-20%{opacity: .8;}
-50%{opacity: 1;}
-}
-
 #finding {
     position: absolute;
     width: 400px;
@@ -80,10 +70,6 @@
     font-family: sans-serif;
     font-size: 13px;
 }
-/*
-#finding.hidden {
-    display: none;
-}*/
 
 .annotation.line {
     stroke: grey;
