@@ -64,7 +64,7 @@
 
 #finding {
     position: absolute;
-    width: 250px;
+    width: 400px;
     height: auto;
     border: none;
     background-color: white;
@@ -72,15 +72,21 @@
     opacity: 1;
     border-style: none;
     border-radius: 10px;
-    padding: 10px;
+    padding-left: 10px;
 }
 
 #finding p {
     background-color: none;
     font-family: sans-serif;
-    font-size: 15px;
+    font-size: 13px;
 }
-
+/*
 #finding.hidden {
     display: none;
+}*/
+
+.annotation.line {
+    stroke: grey;
+    stroke-width: 1px;
+    stroke-dasharray: 4 1;
 }

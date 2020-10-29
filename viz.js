@@ -9,7 +9,7 @@ window.onload = function () {
         .attr("class", "canvas");
 
     // set graph margins
-    var margin = {left: 80, top: 90, right: 40, bottom: 50};
+    var margin = {left: 80, top: 190, right: 40, bottom: 50};
 
     // parser function for data reading stage
     var rowParser = function(d) {
@@ -85,7 +85,7 @@ window.onload = function () {
                     return "weekday"
                 } else {
                     return "weekend"
-                };
+                }
         })
         // tooltip
             .on("mouseover", function(d){
@@ -132,7 +132,7 @@ window.onload = function () {
 
         
         // attention to "finding" annotation (blink every 5 secs)
-        svg.append("foreignObject")
+      /*  svg.append("foreignObject")
             .attr("id", "foreign")
             .attr("width", 130)
             .attr("height", 30)
@@ -164,14 +164,48 @@ window.onload = function () {
 
                 d3.select("#finding")
                     .classed("hidden", true);
-        })
+        })*/
+        
+        d3.select("#finding")
+            .style("left", width/10 + "px")
+            .style("top", (margin.top - 10) + "px")
+        
+        svg.append("line")
+//            .attr("class", "annotation line")
+            .attr("x1", width/10)
+            .attr("y1", margin.top - 15)
+            .attr("x2", xScale(17))
+            .attr("y2", margin.top - 15)
+            .style("stroke", "grey");
+
+        
+        svg.append("line")
+            .attr("class", "annotation line")
+            .attr("x1", xScale(8))
+            .attr("y1", margin.top - 15)
+            .attr("x2", xScale(8))
+            .attr("y2", yScale(1030));
+        
+        svg.append("line")
+            .attr("class", "annotation line")
+            .attr("x1", xScale(12.5))
+            .attr("y1", margin.top - 15)
+            .attr("x2", xScale(12.5))
+            .attr("y2", yScale(1250));
+        
+        svg.append("line")
+            .attr("class", "annotation line")
+            .attr("x1", xScale(17))
+            .attr("y1", margin.top - 16)
+            .attr("x2", xScale(17))
+            .attr("y2", yScale(1530));
 
 
         // ----------- extras
         // plot title
         svg.append("text")
             .attr("x", (width - margin.right + margin.left) / 2)
-            .attr("y", margin.top / 2)
+            .attr("y", margin.top / 4)
             .attr("class", "annotation")
             .attr("text-anchor", "middle")
             .style("font-size", "20px")
